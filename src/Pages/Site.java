@@ -11,6 +11,7 @@ public class Site {
         site.put("homePageAutentificat",new HomePageAutentificat());
         site.put("logout",new Logout());
         site.put("movies",new MoviePage());
+        site.put("see details",new SeeDetails());
     }
 
     public static Site getInstance(){

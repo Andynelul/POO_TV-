@@ -1,6 +1,7 @@
 package Input;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Movie {
     String name;
@@ -12,9 +13,19 @@ public class Movie {
 
     int numLikes=0;
 
-    int rating=0;
+    double rating=0;
 
     int numRatings=0;
+
+    int totalRating=0;
+
+    public int getTotalRating() {
+        return totalRating;
+    }
+
+    public void setTotalRating(int totalRating) {
+        this.totalRating = totalRating;
+    }
 
     public String getName() {
         return name;
@@ -82,11 +93,11 @@ public class Movie {
         this.numLikes = numLikes;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 

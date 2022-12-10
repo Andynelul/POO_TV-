@@ -10,6 +10,36 @@ public class Action {
 
     private Filters filters;
 
+    private String movie;
+
+    private String count;
+
+    private int rate;
+
+    public int getRate() {
+        return rate;
+    }
+
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
+
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
+    }
+
+    public String getMovie() {
+        return movie;
+    }
+
+    public void setMovie(String movie) {
+        this.movie = movie;
+    }
+
     public Filters getFilters() {
         return filters;
     }

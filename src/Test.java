@@ -1,5 +1,8 @@
+import Action.GetCommands;
+import Input.InputData;
 import checker.Checkstyle;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import java.io.File;
 import java.io.IOException;
@@ -198,7 +201,7 @@ public final class Test {
     private static Future<Object> createTimerTask(final String[] argv) {
         ExecutorService executor = Executors.newCachedThreadPool();
         Callable<Object> task = () -> {
-            Main.main(argv);
+                Main.main(argv);
             return null;
         };
 
