@@ -1,59 +1,86 @@
 package Action;
-
-import Input.Action;
-import Input.Contains;
-import Input.Movie;
-import Input.Sort;
+import inputFiles.Contains;
+import inputFiles.Movie;
+import inputFiles.Sort;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
 public class FilterOptions {
     public void Sort(Sort sort , ArrayList<Movie> movies)
     {
-//        if(sort.getRating().equals("decreasing"))
-//        {
-//              Comparator<Movie> MovieRating = new Comparator<Movie>() {
-//            public int compare(Movie o2,Movie o1)
-//            {   if(o1.getRating()!=o2.getRating())
-//               return o1.getRating()-o2.getRating();
-//                else return o1.getDuration()-o2.getDuration();
-//            }
-//            };
-//            Collections.sort(movies,MovieRating);
-//        }
+        if(movies!=null)
+    {
+            Comparator <Movie> movieComparatorByDuration=
+                    Comparator.comparing(Movie::getDuration);
+            Comparator <Movie> movieComparatorByRating=
+                    Comparator.comparing(Movie::getRating);
+
+            if(sort.getRating()!=null&&sort.getDuration()!=null)
+            {   Comparator <Movie> movieComparator;
+                if(sort.getRating().equals("increasing")&&sort.getDuration().equals("increasing")){
+                     movieComparator=
+                             movieComparatorByDuration.thenComparing(movieComparatorByRating);
+                }
+                else if(sort.getRating().equals("decreasing")&&sort.getDuration().equals("decreasing")){
+
+                     movieComparator=
+                             movieComparatorByDuration.reversed().thenComparing(movieComparatorByRating.reversed());
+                }
+               else if(sort.getRating().equals("increasing")&&sort.getDuration().equals("decreasing")){
+                    movieComparator=
+                            movieComparatorByDuration.reversed().thenComparing(movieComparatorByRating);
+                }
+                else{
+                    movieComparator=
+                            movieComparatorByDuration.thenComparing(movieComparatorByRating.reversed());
+                }
+                Collections.sort(movies,movieComparator);
+                movies.sort(movieComparator);
+            }
+            else if(sort.getRating()!=null)
+            {Collections.sort(movies, movieComparatorByRating);
+                if(sort.getRating().equals("increasing")) {
+
+                    movies.sort(movieComparatorByRating);
+                }
+                else {
+                    movies.sort(movieComparatorByRating.reversed());
+                }
+            }
+            else{
+                Collections.sort(movies,movieComparatorByDuration);
+                if(sort.getRating().equals("increasing"))
+                    movies.sort(movieComparatorByDuration);
+                else
+                movies.sort(movieComparatorByDuration.reversed());
+
+            }
+
+
     }
-    public ArrayList<Movie> contains(Contains contains,ArrayList<Movie> movies)
+    }
+    public ArrayList<Movie> contains(Contains contains, ArrayList<Movie> movies)
     {   ArrayList<Movie> newMovies=new ArrayList<>();
-        if(contains.getGenre()!=null&&contains.getActors()!=null)
+         if(contains.getActors()!=null)
         {
             for(int i=0;i< movies.size();i++)
-            {
-                if(movies.get(i).getActors().contains(contains.getActors()))
-                    if(movies.get(i).getGenres().contains(contains.getGenre()))
-                        newMovies.add(movies.get(i));
-            }
-        }
-        else if(contains.getActors()!=null)
-        {
-            for(int i=0;i< movies.size();i++)
-            {
-                if(movies.get(i).getActors().contains(contains.getActors()))
-                {
+            {   for(int j=0;j< contains.getActors().size();j++) {
+                if ( movies.get(i).getActors().contains(contains.getActors().get(j)) ) {
                     newMovies.add(movies.get(i));
                 }
             }
+            }
         }
-       else if(contains.getGenre()!=null)
+        else if(contains.getGenre()!=null)
         {
             for(int i=0;i< movies.size();i++)
-            {
-                if(movies.get(i).getGenres().contains(contains.getGenre()))
-                {
+            {   for(int j=0;j< contains.getActors().size();j++) {
+                if ( movies.get(i).getGenres().contains(contains.getGenre().get(i)) ) {
                     newMovies.add(movies.get(i));
                 }
+            }
             }
         }
         return newMovies;

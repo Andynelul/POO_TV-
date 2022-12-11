@@ -1,222 +1,209 @@
 package Action;
 
-import Input.InputData;
-import Input.Movie;
-import Input.User;
 import OutputClasses.OutputAdd;
-import Pages.*;
+import Site.Current;
+import Site.Page;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import inputFiles.ActionInput;
+import inputFiles.InputData;
+import Site.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import Site.MoviePage;
+import Site.Login;
+import inputFiles.Movie;
+import inputFiles.User;
 
 public class GetCommands {
-    public void action(InputData input, ArrayNode out){
-        OutputAdd output=new OutputAdd();
-        Site site=Site.getInstance();
-      MoviePage MovPage=(MoviePage) site.getSite().get("movies");
-        User currentUser=null;
-        Page currentPage=site.getSite().get("homePageNeautentificat");
-        Action Action =new Action();
-        for( Input.Action action: input.getActions() )
-        {
-            if(action.getType().equals("change page"))
-            {
-                if(currentPage.getAvailablePages().contains(action.getPage())) {
-                    if ( action.getMovie() != null ) {
-                        int counter=0;
-                        for ( int i = 0; i < MovPage.getMovies().size(); i++ ) {
+    public void execute(InputData input, ArrayNode out) {
 
-                            if ( MovPage.getMovies().get(i).getName().equals(action.getMovie()) )
-                            {  currentPage = site.getSite().get(action.getPage());
-                                SeeDetails pg=(SeeDetails) currentPage;
-                                pg.setTitle(action.getMovie());
-                            counter++;}
-                        }
-                        if(counter==0)
-                        {
-                            output.add("Error",MovPage.getMovies(),null,out,currentPage);
-                        }
-                    } else {
-                        currentPage = site.getSite().get(action.getPage());
-                        if ( currentPage instanceof Logout ) {
-                            MovPage.setMovies(input.getMovies());
-                            currentPage = Site.getInstance().getSite().get("homePageNeautentificat");
-                            currentUser = null;
-
-                        }
-                        if ( currentUser != null )
-                            output.add(null, MovPage.getMovies(), currentUser, out, currentPage);
-                    }
-                }else
-                    output.add("Error",MovPage.getMovies(),null,out,currentPage);
-            }
-            else if(action.getType().equals("on page"))
-            {  // OnPageAction onPage=new OnPageAction();
-                //onPage.action(action,input,currentPage,currentUser,out);
-                if(action.getFeature().equals("login"))
-                {
-                    if(currentPage instanceof Login )
+        OutputAdd output = new OutputAdd();
+        Site site = Site.getInstance();
+        MoviePage MovPage = new MoviePage();
+        User currentUser = null;
+        Page currentPage = site.getSite().get("homePageN");
+        Action Action = new Action();
+        for ( ActionInput action : input.getActions() ) {
+            if ( action.getType().equals("change page") ) {
+                if ( currentPage.getAvailablePages().contains(action.getPage()) ) {
+                    if(action.getPage().equals("movies"))
                     {
-                        Login currentPage1 = (Login) currentPage;
-                        if(currentPage1.login(action.getCredentials(), input.getUsers())!=null) {
-                            currentUser=currentPage1.login(action.getCredentials(), input.getUsers());
-                            output.add(null, input.getMovies(), currentUser, out, currentPage);
-                            MovPage.setMovies(Action.ban(input.getMovies(),currentUser.getCredentials().getCountry()));
-                            currentPage= Site.getInstance().getSite().get("homePageAutentificat");
-                        }
-                        else
+                        MovPage.setMovies(Action.ban(input.getMovies(), currentUser.getCredentials().getCountry()));
+                    }
+                    if(action.getPage().equals("see details"))
+                    {   ArrayList<Movie> tempMovie=new ArrayList<>();
+                        for(int i=0;i<MovPage.getMovies().size();i++) {
+
+                        if ( MovPage.getMovies().get(i).getName().equals(action.getMovie()) )
                         {
-
-                            output.add("Error",MovPage.getMovies(),null,out,currentPage);
-                            currentPage= Site.getInstance().getSite().get("homePageNeautentificat");
-
+                            tempMovie.add(MovPage.getMovies().get(i));
+                            MovPage.setMovies(tempMovie);
+                            currentPage=site.getSite().get("see details");
+                            output.add(null,tempMovie, currentUser, out, currentPage);
+                            break;
                         }
+                        }
+                        if(tempMovie.size()!=1)
+                            output.add("Error", MovPage.getMovies(), null, out, currentPage);
                     }
                     else
                     {
-                        output.add("Error",MovPage.getMovies(),null,out,currentPage);
-                       // currentPage= Site.getInstance().getSite().get("homePageNeautentificat");
+                        currentPage = site.getSite().get(action.getPage());
+                        if ( currentPage.getPageType().equals("logout") ) {
+                            MovPage.setMovies(input.getMovies());
+                            currentPage = Site.getInstance().getSite().get("homePageN");
+                            currentUser = null;
 
+                        }
+                        if ( currentUser != null && !currentPage.getPageType().equals("upgrades") )
+                            output.add(null, MovPage.getMovies(), currentUser, out, currentPage);
                     }
-                }
-                else if(action.getFeature().equals("register"))
-                {
-                    if(currentPage instanceof Register )
-                    {   int cnt=0;
-                        for(int i=0;i<input.getUsers().size();i++) {
+                } else
+                    output.add("Error", MovPage.getMovies(), null, out, currentPage);
+            } else if ( action.getType().equals("on page") ) {
+                if ( action.getFeature().equals("login") ) {
+                    if ( currentPage.getPageType().equals("login") ) {
+                        Login currentPage1 = (Login) currentPage;
+                        if ( currentPage1.login(action.getCredentials(), input.getUsers()) != null ) {
+                            currentUser = currentPage1.login(action.getCredentials(), input.getUsers());
+                            output.add(null, input.getMovies(), currentUser, out, currentPage);
+                            MovPage.setMovies(Action.ban(input.getMovies(), currentUser.getCredentials().getCountry()));
+                            currentPage = Site.getInstance().getSite().get("homePageA");
+                        } else {
+
+                            output.add("Error", MovPage.getMovies(), null, out, currentPage);
+                            currentPage = Site.getInstance().getSite().get("homePageN");
+
+                        }
+                    } else {
+                        output.add("Error", MovPage.getMovies(), null, out, currentPage);
+                    }
+                } else if ( action.getFeature().equals("register") ) {
+                    if ( currentPage.getPageType().equals("register") ) {
+                        int cnt = 0;
+                        for ( int i = 0; i < input.getUsers().size(); i++ ) {
                             if ( input.getUsers().get(i).getCredentials().getName().equals(action.getCredentials().getName()) )
                                 cnt++;
                         }
-                        if(cnt==0) {
+                        if ( cnt == 0 ) {
                             Register currentPageCopy = (Register) currentPage;
                             currentPageCopy.register(action.getCredentials(), input.getUsers());
                             currentUser = input.getUsers().get(input.getUsers().size() - 1);
                             output.add(null, input.getMovies(), currentUser, out, currentPage);
-                            currentPage = Site.getInstance().getSite().get("homePageAutentificat");
-                            MovPage.setMovies(Action.ban(input.getMovies(),currentUser.getCredentials().getCountry()));
+                            currentPage = Site.getInstance().getSite().get("homePageA");
+                            MovPage.setMovies(Action.ban(input.getMovies(), currentUser.getCredentials().getCountry()));
+                        } else {
+                            output.add("Error", MovPage.getMovies(), null, out, currentPage);
                         }
-                        else
-                        {
-                            output.add("Error",MovPage.getMovies(),null,out,currentPage);
-                            // currentPage= Site.getInstance().getSite().get("homePageNeautentificat");
-
-                        }
-                    }
-                    else
-                    {
-                        output.add("Error",MovPage.getMovies(),null,out,currentPage);
-                       // currentPage= Site.getInstance().getSite().get("homePageNeautentificat");
-
+                    } else {
+                        output.add("Error", MovPage.getMovies(), null, out, currentPage);
                     }
                 }
-                else if(action.getFeature().equals("search")) {
-                    if ( currentPage instanceof MoviePage ) {
-                        ArrayList <Movie> TempMovieList = new ArrayList <>();
-                        for ( int i = 0; i < MovPage.getMovies().size(); i++ ) {
-                            if ( MovPage.getMovies().get(i).getName().contains(action.getStartsWith()) )
-                                TempMovieList.add(MovPage.getMovies().get(i));
-                        }
-                        MovPage.setMovies(TempMovieList);
+                else if ( action.getFeature().equals("search") ) {
+                    if ( currentPage.getPageType().equals("movie") ) {
+                        MovPage.setMovies(Action.search(MovPage.getMovies(), action.getStartsWith()));
                         output.add(null, MovPage.getMovies(), currentUser, out, currentPage);
-                    }
-                    else
-                    {
-                        output.add("Error",MovPage.getMovies(),null,out,currentPage);
-                        // currentPage= Site.getInstance().getSite().get("homePageNeautentificat");
-
+                    } else {
+                        output.add("Error", MovPage.getMovies(), null, out, currentPage);
                     }
                 }
-
-                else if(action.getFeature().equals("filter"))
-                {if ( currentPage instanceof MoviePage ) {
-                    FilterOptions filter = new FilterOptions();
-                    if(action.getFilters().getContains()!=null)
-                    MovPage.setMovies(filter.contains(action.getFilters().getContains(), MovPage.getMovies()));
-                    if(action.getFilters().getSort()!=null)
-                    filter.Sort(action.getFilters().getSort(), MovPage.getMovies());
-                    output.add(null, MovPage.getMovies(), currentUser, out, currentPage);
-                }
-                    else
-
-                    {
-                        output.add("Error",MovPage.getMovies(),null,out,currentPage);
-                        // currentPage= Site.getInstance().getSite().get("homePageNeautentificat");
-
+                else if ( action.getFeature().equals("filter") ) {
+                    if ( currentPage.getPageType().equals("movie") ) {
+                        MovPage.setMovies(Action.ban(input.getMovies(), currentUser.getCredentials().getCountry()));
+                        FilterOptions filter = new FilterOptions();
+                        if ( action.getFilters().getContains() != null )
+                            MovPage.setMovies(filter.contains(action.getFilters().getContains(), MovPage.getMovies()));
+                        if ( action.getFilters().getSort() != null )
+                            filter.Sort(action.getFilters().getSort(), MovPage.getMovies());
+                        output.add(null, MovPage.getMovies(), currentUser, out, currentPage);
+                    } else {
+                        output.add("Error", MovPage.getMovies(), null, out, currentPage);
                     }
                 }
-                else if(action.getFeature().equals("buy tokens"))
-                {
-                    int balance=Integer.parseInt(currentUser.getCredentials().getBalance());
-                    int count=Integer.parseInt(action.getCount());
-                    if(balance>=count) {
+                else if ( action.getFeature().equals("buy tokens") ) {
+                    if(currentPage.getPageType().equals("upgrades")){
+                    int balance = Integer.parseInt(currentUser.getCredentials().getBalance());
+                    int count = Integer.parseInt(action.getCount());
+                    if ( balance >= count ) {
                         balance = balance - count;
                         currentUser.setTokensCount(count);
                         currentUser.getCredentials().setBalance(String.valueOf(balance));
-                    }
-                    else output.add("Error",MovPage.getMovies(),null,out,currentPage);
+                    } else output.add("Error", MovPage.getMovies(), null, out, currentPage);
+                    } else output.add("Error", MovPage.getMovies(), null, out, currentPage);
 
                 }
-                else if(action.getFeature().equals("buy premium account"))
-                {
-                    if(currentUser.getTokensCount()>=10) {
-                        if ( currentUser.getCredentials().getAccountType().equals("standard") ) {
-                            currentUser.setTokensCount(currentUser.getTokensCount() - 10);
-                            currentUser.getCredentials().setAccountType("premium");
-                        }                    else output.add("Error",MovPage.getMovies(),null,out,currentPage);
-
-                    }                    else output.add("Error",MovPage.getMovies(),null,out,currentPage);
-
-                }
-                if(action.getFeature().equals("purchase"))
-                {   SeeDetails page=(SeeDetails) currentPage;
-                    if(page.getTitle().equals(action.getMovie()))
-                    {
-                        if(currentUser.getNumFreePremiumMovies()>0)
-                        {
-                            currentUser.setNumFreePremiumMovies(currentUser.getNumFreePremiumMovies()-1);
-                           currentUser.getPurchasedMovies().add(Action.movieAdd(MovPage.getMovies(),action.getMovie()));
-                        }                    else output.add("Error",MovPage.getMovies(),null,out,currentPage);
-
-                    }                    else output.add("Error",MovPage.getMovies(),null,out,currentPage);
-
-                }
-                else if(action.getFeature().equals("watched"))
-                { SeeDetails page=(SeeDetails) currentPage;
-                    if(page.getTitle().equals(action.getMovie()))
-                    {
-                        if(Action.movieAdd(currentUser.getPurchasedMovies(),action.getMovie())!=null)
-                        {
-                            currentUser.getWatchedMovies().add(Action.movieAdd(currentUser.getPurchasedMovies(),action.getMovie()));
+                else if ( action.getFeature().equals("buy premium account") ) {
+                    if ( currentPage.getPageType().equals("upgrades") ) {
+                        if ( currentUser.getTokensCount() >= 10 ) {
+                            if ( currentUser.getCredentials().getAccountType().equals("standard") ) {
+                                currentUser.setTokensCount(currentUser.getTokensCount() - 10);
+                                currentUser.getCredentials().setAccountType("premium");
+                            } else output.add("Error", MovPage.getMovies(), null, out, currentPage);
                         }
-                        else output.add("Error",MovPage.getMovies(),null,out,currentPage);
+                    } else output.add("Error", MovPage.getMovies(), null, out, currentPage);
+                }
+                else if ( action.getFeature().equals("purchase")){
+                    if(currentPage.getPageType().equals("see details")) {
+                      if(currentUser.getNumFreePremiumMovies()>0)
+                        {currentUser.setNumFreePremiumMovies(currentUser.getNumFreePremiumMovies()-1);
+                            currentUser.getPurchasedMovies().add(MovPage.getMovies().get(0));
+                            output.add(null, MovPage.getMovies(), currentUser, out, currentPage);
 
-                    }
-                    else output.add("Error",MovPage.getMovies(),null,out,currentPage);
+                        } else output.add("Error", MovPage.getMovies(), null, out, currentPage);
+
+
+                    } else output.add("Error", MovPage.getMovies(), null, out, currentPage);
+
+                }
+               else if(action.getFeature().equals("watch"))
+                {
+                    if(currentPage.getPageType().equals("see details"))
+                    {
+                            if(currentUser.getPurchasedMovies().contains(MovPage.getMovies().get(0)))
+                            {
+                                currentUser.getWatchedMovies().add(MovPage.getMovies().get(0));
+                                output.add(null, MovPage.getMovies(), currentUser, out, currentPage);
+
+
+                        } else output.add("Error", MovPage.getMovies(), null, out, currentPage);
+
+                    } else output.add("Error", MovPage.getMovies(), null, out, currentPage);
 
                 }
                 else if(action.getFeature().equals("like"))
-                {SeeDetails page=(SeeDetails) currentPage;
-                    if(page.getTitle().equals(action.getMovie())) {
-                        if(Action.movieAdd(currentUser.getWatchedMovies(),action.getMovie())!=null)
-                            currentUser.getLikedMovies().add(Action.movieAdd(currentUser.getWatchedMovies(), action.getMovie()));
-                        }                    else output.add("Error",MovPage.getMovies(),null,out,currentPage);
+                {
+                    if(currentPage.getPageType().equals("see details"))
+                    {
+                            if(currentUser.getWatchedMovies().contains(MovPage.getMovies().get(0)))
+                            {
+                                currentUser.getLikedMovies().add(MovPage.getMovies().get(0));
+                                MovPage.getMovies().get(0).setNumLikes(MovPage.getMovies().get(0).getNumLikes()+1);
+                                output.add(null,MovPage.getMovies(), currentUser, out, currentPage);
 
-                    }                    else output.add("Error",MovPage.getMovies(),null,out,currentPage);
+                        } else output.add("Error", MovPage.getMovies(), null, out, currentPage);
+
+                    } else output.add("Error", MovPage.getMovies(), null, out, currentPage);
 
                 }
                 else if(action.getFeature().equals("rate"))
-                    {SeeDetails page=(SeeDetails) currentPage;
-                        if(Action.movieAdd(currentUser.getPurchasedMovies(),action.getMovie())!=null)
-                            if ( currentUser.getWatchedMovies().contains(action.getMovie()) ) {
+                {
+                    if(currentPage.getPageType().equals("see details"))
+                    {
 
-                            }                    else output.add("Error",MovPage.getMovies(),null,out,currentPage);
+                            if(currentUser.getWatchedMovies().contains(MovPage.getMovies().get(0)))
+                            {   double rate=action.getRate()+(MovPage.getMovies().get(0).getRating()*MovPage.getMovies().get(0).getNumRatings());
+                                MovPage.getMovies().get(0).setNumRatings(MovPage.getMovies().get(0).getNumRatings()+1);
+                                MovPage.getMovies().get(0).setRating(rate/MovPage.getMovies().get(0).getNumRatings());
+                                currentUser.getRatedMovies().add(MovPage.getMovies().get(0));
+                                output.add(null,MovPage.getMovies(), currentUser, out, currentPage);
 
-                        }                    else output.add("Error",MovPage.getMovies(),null,out,currentPage);
+                        } else output.add("Error", MovPage.getMovies(), null, out, currentPage);
 
-                    }
+                    } else output.add("Error", MovPage.getMovies(), null, out, currentPage);
 
+                }
             }
         }
-
     }
 }

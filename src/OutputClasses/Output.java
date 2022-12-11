@@ -1,8 +1,7 @@
 package OutputClasses;
 
-import Input.Movie;
-import Input.User;
-import com.fasterxml.jackson.databind.node.ArrayNode;
+import inputFiles.Movie;
+import inputFiles.User;
 
 import java.util.ArrayList;
 

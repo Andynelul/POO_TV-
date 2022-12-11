@@ -1,11 +1,24 @@
 package Action;
 
-import Input.Movie;
+import Site.Page;
+import Site.Site;
+import inputFiles.ActionInput;
+import inputFiles.Movie;
 
+import java.lang.management.MonitorInfo;
 import java.util.ArrayList;
 
 public class Action {
-    public ArrayList<Movie> ban(ArrayList<Movie> movies,String country)
+    public Page changePage(Page currentPage, ActionInput action)
+    {
+        if(currentPage.getAvailablePages().contains(action.getPage()))
+        {
+            currentPage= Site.getInstance().getSite().get(action.getPage());
+        }
+        else return null;
+        return currentPage;
+    }
+    public ArrayList <Movie> ban(ArrayList<Movie> movies, String country)
     {
         ArrayList<Movie> newMovies=new ArrayList<>();
         for(int i=0;i< movies.size();i++)
@@ -17,15 +30,13 @@ public class Action {
         }
         return newMovies;
     }
-    public Movie movieAdd(ArrayList<Movie> movies,String title)
+    public ArrayList <Movie> search(ArrayList<Movie> movies,String startsWith)
     {
-        for(int i=0;i<movies.size();i++)
-        {
-            if(movies.get(i).getName().equals(title))
-            {
-                return movies.get(i);
-            }
+        ArrayList <Movie> TempMovieList = new ArrayList <>();
+        for ( int i = 0; i < movies.size(); i++ ) {
+            if ( movies.get(i).getName().startsWith(startsWith) )
+                TempMovieList.add(movies.get(i));
         }
-        return null;
+        return TempMovieList;
     }
 }
