@@ -14,7 +14,7 @@ public class OutputAdd {
         ObjectMapper obj=new ObjectMapper();
         if (error!=null)
             out.add(obj.valueToTree(new Output(error, new ArrayList<>(),currentUser)));
-        else if(currentPage.getPageType().equals("movie")) {
+        else if(currentPage.getPageType().equals("movies")||currentPage.getPageType().equals("upgrades")) {
             ArrayList<Movie> newMovie=new ArrayList<>();
             newMovie.addAll(movies);
             out.add(obj.valueToTree(new Output(error, newMovie, currentUser)));

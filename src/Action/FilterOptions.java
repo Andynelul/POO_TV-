@@ -63,21 +63,43 @@ public class FilterOptions {
     }
     public ArrayList<Movie> contains(Contains contains, ArrayList<Movie> movies)
     {   ArrayList<Movie> newMovies=new ArrayList<>();
-         if(contains.getActors()!=null)
+
+        if(!contains.getActors().isEmpty() )
         {
-            for(int i=0;i< movies.size();i++)
-            {   for(int j=0;j< contains.getActors().size();j++) {
-                if ( movies.get(i).getActors().contains(contains.getActors().get(j)) ) {
-                    newMovies.add(movies.get(i));
+            if(!contains.getGenre().isEmpty())
+            {   ArrayList<Movie> newMovies2=new ArrayList<>();
+
+                for(int i=0;i< movies.size();i++)
+                {   for(int j=0;j< contains.getActors().size();j++) {
+                    if ( movies.get(i).getActors().contains(contains.getActors().get(j)) ) {
+                        newMovies2.add(movies.get(i));
+                    }
+                }
+                }
+                for(int i=0;i< newMovies2.size();i++)
+                {   for(int j=0;j< contains.getGenre().size();j++) {
+                    if ( newMovies2.get(i).getGenres().contains(contains.getGenre().get(j)) ) {
+                        newMovies.add(newMovies2.get(i));
+                    }
+                }
                 }
             }
+            else
+            {
+                for(int i=0;i< movies.size();i++)
+                {   for(int j=0;j< contains.getActors().size();j++) {
+                    if ( movies.get(i).getActors().contains(contains.getActors().get(j)) ) {
+                        newMovies.add(movies.get(i));
+                    }
+                }
+                }
             }
         }
-        else if(contains.getGenre()!=null)
+        else
         {
             for(int i=0;i< movies.size();i++)
-            {   for(int j=0;j< contains.getActors().size();j++) {
-                if ( movies.get(i).getGenres().contains(contains.getGenre().get(i)) ) {
+            {   for(int j=0;j< contains.getGenre().size();j++) {
+                if ( movies.get(i).getGenres().contains(contains.getGenre().get(j)) ) {
                     newMovies.add(movies.get(i));
                 }
             }
