@@ -1,6 +1,6 @@
-package Site;
+package site;
 
-public class Logout extends Page{
+public class Logout extends Page {
     public Logout() {
         setPageType("logout");
     }

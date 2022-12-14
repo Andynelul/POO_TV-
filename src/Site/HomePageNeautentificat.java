@@ -1,6 +1,6 @@
-package Site;
+package site;
 
-public class HomePageNeautentificat extends Page{
+public class HomePageNeautentificat extends Page {
 
     public HomePageNeautentificat() {
         super();

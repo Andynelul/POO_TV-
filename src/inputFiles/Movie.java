@@ -1,27 +1,26 @@
-package inputFiles;
+package inputfiles;
 
 import java.util.ArrayList;
 
-final public class Movie {
+public final class Movie {
+    private String name;
+    private int year;
+    private int duration;
+    private ArrayList<String> genres;
+    private ArrayList<String> actors;
+    private ArrayList<String> countriesBanned;
 
-    String name;
-    int year;
-    int duration;
-    ArrayList<String> genres;
-    ArrayList<String> actors;
-    ArrayList<String> countriesBanned;
+    private int numLikes = 0;
 
-    int numLikes = 0;
+    private double rating = 0;
 
-    double rating = 0;
-
-    int numRatings = 0;
+    private int numRatings = 0;
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -29,7 +28,7 @@ final public class Movie {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(final int year) {
         this.year = year;
     }
 
@@ -37,7 +36,7 @@ final public class Movie {
         return duration;
     }
 
-    public void setDuration(int duraction) {
+    public void setDuration(final int duraction) {
         this.duration = duraction;
     }
 
@@ -45,7 +44,7 @@ final public class Movie {
         return genres;
     }
 
-    public void setGenres(ArrayList<String> genres) {
+    public void setGenres(final ArrayList<String> genres) {
         this.genres = genres;
     }
 
@@ -53,7 +52,7 @@ final public class Movie {
         return actors;
     }
 
-    public void setActors(ArrayList<String> actors) {
+    public void setActors(final ArrayList<String> actors) {
         this.actors = actors;
     }
 
@@ -61,7 +60,7 @@ final public class Movie {
         return countriesBanned;
     }
 
-    public void setCountriesBanned(ArrayList<String> countriesBanned) {
+    public void setCountriesBanned(final ArrayList<String> countriesBanned) {
         this.countriesBanned = countriesBanned;
     }
 
@@ -69,7 +68,7 @@ final public class Movie {
         return numLikes;
     }
 
-    public void setNumLikes(int numLikes) {
+    public void setNumLikes(final int numLikes) {
         this.numLikes = numLikes;
     }
 
@@ -77,7 +76,7 @@ final public class Movie {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(final double rating) {
         this.rating = rating;
     }
 
@@ -85,7 +84,7 @@ final public class Movie {
         return numRatings;
     }
 
-    public void setNumRatings(int numRatings) {
+    public void setNumRatings(final int numRatings) {
         this.numRatings = numRatings;
     }
 

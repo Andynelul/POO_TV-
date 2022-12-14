@@ -1,8 +1,8 @@
-package inputFiles;
+package inputfiles;
 
-final public class ActionInput {
+public final class ActionInput {
     private String type;
-     private String page;
+    private String page;
     private String feature;
 
     private String startsWith;
@@ -20,7 +20,7 @@ final public class ActionInput {
         return rate;
     }
 
-    public void setRate(int rate) {
+    public void setRate(final int rate) {
         this.rate = rate;
     }
 
@@ -28,7 +28,7 @@ final public class ActionInput {
         return count;
     }
 
-    public void setCount(String count) {
+    public void setCount(final String count) {
         this.count = count;
     }
 
@@ -36,7 +36,7 @@ final public class ActionInput {
         return movie;
     }
 
-    public void setMovie(String movie) {
+    public void setMovie(final String movie) {
         this.movie = movie;
     }
 
@@ -44,7 +44,7 @@ final public class ActionInput {
         return filters;
     }
 
-    public void setFilters(Filters filters) {
+    public void setFilters(final Filters filters) {
         this.filters = filters;
     }
 
@@ -52,7 +52,7 @@ final public class ActionInput {
         return feature;
     }
 
-    public void setFeature(String feature) {
+    public void setFeature(final String feature) {
         this.feature = feature;
     }
 
@@ -60,7 +60,7 @@ final public class ActionInput {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 
@@ -68,7 +68,7 @@ final public class ActionInput {
         return page;
     }
 
-    public void setPage(String page) {
+    public void setPage(final String page) {
         this.page = page;
     }
 
@@ -76,7 +76,7 @@ final public class ActionInput {
         return credentials;
     }
 
-    public void setCredentials(Credentials credentials) {
+    public void setCredentials(final Credentials credentials) {
         this.credentials = credentials;
     }
 
@@ -84,7 +84,7 @@ final public class ActionInput {
         return startsWith;
     }
 
-    public void setStartsWith(String startsWith) {
+    public void setStartsWith(final String startsWith) {
         this.startsWith = startsWith;
     }
 

@@ -1,14 +1,14 @@
-package inputFiles;
+package inputfiles;
 
-final public class Filters {
-    Sort sort;
-    Contains contains;
+public final class Filters {
+    private Sort sort;
+    private Contains contains;
 
     public Sort getSort() {
         return sort;
     }
 
-    public void setSort(Sort sort) {
+    public void setSort(final Sort sort) {
         this.sort = sort;
     }
 
@@ -16,7 +16,7 @@ final public class Filters {
         return contains;
     }
 
-    public void setContains(Contains contains) {
+    public void setContains(final Contains contains) {
         this.contains = contains;
     }
 }

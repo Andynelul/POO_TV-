@@ -1,6 +1,6 @@
-package Site;
+package site;
 
-public class HomePageAutentificat extends Page{
+public class HomePageAutentificat extends Page {
 
     public HomePageAutentificat() {
         super();
@@ -9,7 +9,6 @@ public class HomePageAutentificat extends Page{
         setAvailablePages("movies");
         setAvailablePages("upgrades");
     }
-
 
 
 }

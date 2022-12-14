@@ -1,17 +1,17 @@
-package inputFiles;
+package inputfiles;
 
 import java.util.ArrayList;
 
-final public class InputData {
-    ArrayList<User> users = new ArrayList<>();
-    ArrayList<Movie> movies = new ArrayList<>();
-    ArrayList<ActionInput> actions = new ArrayList<>();
+public final class InputData {
+    private ArrayList<User> users = new ArrayList<>();
+    private ArrayList<Movie> movies = new ArrayList<>();
+    private ArrayList<ActionInput> actions = new ArrayList<>();
 
     public ArrayList<User> getUsers() {
         return users;
     }
 
-    public void setUsers(ArrayList<User> users) {
+    public void setUsers(final ArrayList<User> users) {
         this.users = users;
     }
 
@@ -19,15 +19,15 @@ final public class InputData {
         return movies;
     }
 
-    public void setMovies(ArrayList<Movie> movies) {
+    public void setMovies(final ArrayList<Movie> movies) {
         this.movies = movies;
     }
 
-    public ArrayList <ActionInput> getActions() {
+    public ArrayList<ActionInput> getActions() {
         return actions;
     }
 
-    public void setActions(ArrayList<ActionInput> actions) {
+    public void setActions(final ArrayList<ActionInput> actions) {
         this.actions = actions;
     }
 }

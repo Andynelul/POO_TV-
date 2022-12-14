@@ -1,4 +1,4 @@
-package Site;
+package site;
 
 public class Upgrades extends Page {
     public Upgrades() {

@@ -1,9 +1,9 @@
-package Site;
+package site;
 
-import inputFiles.Movie;
+import inputfiles.Movie;
 
-public class SeeDetails extends Page{
-    Movie movie;
+public class SeeDetails extends Page {
+    private Movie movie;
 
     public Movie getMovie() {
         return movie;
@@ -13,8 +13,7 @@ public class SeeDetails extends Page{
         this.movie = movie;
     }
 
-    public SeeDetails()
-    {
+    public SeeDetails() {
         super();
         setPageType("see details");
         setAvailablePages("homePageA");

@@ -1,25 +1,25 @@
-package inputFiles;
+package inputfiles;
 
 import java.util.ArrayList;
 
-final public class Contains {
-    ArrayList<String> actors=new ArrayList<>();
-    ArrayList<String> genre=new ArrayList<>();
+public final class Contains {
+    private ArrayList<String> actors = new ArrayList<>();
+    private ArrayList<String> genre = new ArrayList<>();
 
 
-    public ArrayList <String> getActors() {
+    public ArrayList<String> getActors() {
         return actors;
     }
 
-    public void setActors(ArrayList <String> actors) {
+    public void setActors(final ArrayList<String> actors) {
         this.actors = actors;
     }
 
-    public ArrayList <String> getGenre() {
+    public ArrayList<String> getGenre() {
         return genre;
     }
 
-    public void setGenre(ArrayList <String> genre) {
+    public void setGenre(final ArrayList<String> genre) {
         this.genre = genre;
     }
 }

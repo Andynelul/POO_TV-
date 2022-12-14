@@ -1,26 +1,53 @@
-package Site;
+package site;
 
 import java.util.ArrayList;
 
+/**
+ * The type of a basic page
+ * All of the pages in the site are an extension of this class
+ */
 public class Page {
-    String pageType;
-    private ArrayList<String> availablePages=new ArrayList<>();
+    private String pageType;
+    private ArrayList<String> availablePages = new ArrayList<>();
 
-    public ArrayList <String> getAvailablePages() {
+    /**
+     * Get the pages available to navigate to from this page
+     *
+     * @return
+     */
+    public ArrayList<String> getAvailablePages() {
         return availablePages;
     }
 
-    public void setAvailablePages(String s) {
+    /**
+     * add a new page to navigate to from the current page
+     *
+     * @param s
+     */
+    public void setAvailablePages(final String s) {
         availablePages.add(s);
     }
 
+    /**
+     * empty constructor
+     */
     public Page() {
     }
 
-    public void setPageType(String pageType) {
+    /**
+     * set the type of the page
+     *
+     * @param pageType
+     */
+    public void setPageType(final String pageType) {
         this.pageType = pageType;
     }
 
+    /**
+     * get the page type for the verification of the page instance
+     *
+     * @return
+     */
     public String getPageType() {
         return pageType;
     }

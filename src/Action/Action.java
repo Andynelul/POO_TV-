@@ -1,19 +1,21 @@
-package Action;
+package action;
 
-import Site.Page;
-import Site.Site;
-import inputFiles.ActionInput;
-import inputFiles.Movie;
+import inputfiles.Movie;
+
 import java.util.ArrayList;
 
+/**
+ * implements some methods to make the flow of the project easier to understand
+ */
 public class Action {
-    public Page changePage(Page currentPage, ActionInput action) {
-        if (currentPage.getAvailablePages().contains(action.getPage())) {
-            currentPage = Site.getInstance().getSite().get(action.getPage());
-        } else return null;
-        return currentPage;
-    }
-    public ArrayList<Movie> ban(ArrayList<Movie> movies, String country) {
+    /**
+     * Method ban is banning the movies from the users country
+     *
+     * @param movies
+     * @param country
+     * @return
+     */
+    public ArrayList<Movie> ban(final ArrayList<Movie> movies, final String country) {
         ArrayList<Movie> newMovies = new ArrayList<>();
         for (int i = 0; i < movies.size(); i++) {
             if (!movies.get(i).getCountriesBanned().contains(country)) {
@@ -22,13 +24,21 @@ public class Action {
         }
         return newMovies;
     }
-    public ArrayList<Movie> search(ArrayList<Movie> movies, String startsWith)
-    {
-        ArrayList<Movie> TempMovieList = new ArrayList<> ();
-        for ( int i = 0; i < movies.size(); i++ ) {
-            if (movies.get(i).getName().startsWith(startsWith))
-                TempMovieList.add(movies.get(i));
+
+    /**
+     * method search is searching the movies that start with a given sequence
+     *
+     * @param movies
+     * @param startsWith
+     * @return
+     */
+    public ArrayList<Movie> search(final ArrayList<Movie> movies, final String startsWith) {
+        ArrayList<Movie> tempMovieList = new ArrayList<>();
+        for (int i = 0; i < movies.size(); i++) {
+            if (movies.get(i).getName().startsWith(startsWith)) {
+                tempMovieList.add(movies.get(i));
+            }
         }
-        return TempMovieList;
+        return tempMovieList;
     }
 }

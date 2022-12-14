@@ -1,17 +1,17 @@
-package inputFiles;
+package inputfiles;
 
 import java.util.ArrayList;
 
-final public class User {
-    Credentials credentials;
-    int tokensCount;
-    int numFreePremiumMovies = 15;
-    ArrayList<Movie> purchasedMovies = new ArrayList<>();
-    ArrayList<Movie> watchedMovies = new ArrayList<>();
-    ArrayList<Movie> likedMovies = new ArrayList<>();
-    ArrayList<Movie> ratedMovies = new ArrayList<>();
+public final class User {
+    private Credentials credentials;
+    private int tokensCount;
+    private int numFreePremiumMovies = 15;
+    private ArrayList<Movie> purchasedMovies = new ArrayList<>();
+    private ArrayList<Movie> watchedMovies = new ArrayList<>();
+    private ArrayList<Movie> likedMovies = new ArrayList<>();
+    private ArrayList<Movie> ratedMovies = new ArrayList<>();
 
-    public User(Credentials credentials) {
+    public User(final Credentials credentials) {
         this.credentials = credentials;
     }
 
@@ -22,7 +22,7 @@ final public class User {
         return credentials;
     }
 
-    public void setCredentials(Credentials credentials) {
+    public void setCredentials(final Credentials credentials) {
         this.credentials = credentials;
     }
 
@@ -30,7 +30,7 @@ final public class User {
         return tokensCount;
     }
 
-    public void setTokensCount(int tokensCount) {
+    public void setTokensCount(final int tokensCount) {
         this.tokensCount = tokensCount;
     }
 
@@ -38,7 +38,7 @@ final public class User {
         return numFreePremiumMovies;
     }
 
-    public void setNumFreePremiumMovies(int numFreePremiumMovies) {
+    public void setNumFreePremiumMovies(final int numFreePremiumMovies) {
         this.numFreePremiumMovies = numFreePremiumMovies;
     }
 
@@ -46,7 +46,7 @@ final public class User {
         return purchasedMovies;
     }
 
-    public void setPurchasedMovies(ArrayList<Movie> purchasedMovies) {
+    public void setPurchasedMovies(final ArrayList<Movie> purchasedMovies) {
         this.purchasedMovies = purchasedMovies;
     }
 
@@ -54,7 +54,7 @@ final public class User {
         return watchedMovies;
     }
 
-    public void setWatchedMovies(ArrayList<Movie> watchedMovies) {
+    public void setWatchedMovies(final ArrayList<Movie> watchedMovies) {
         this.watchedMovies = watchedMovies;
     }
 
@@ -62,7 +62,7 @@ final public class User {
         return likedMovies;
     }
 
-    public void setLikedMovies(ArrayList<Movie> likedMovies) {
+    public void setLikedMovies(final ArrayList<Movie> likedMovies) {
         this.likedMovies = likedMovies;
     }
 
@@ -70,7 +70,7 @@ final public class User {
         return ratedMovies;
     }
 
-    public void setRatedMovies(ArrayList<Movie> ratedMovies) {
+    public void setRatedMovies(final ArrayList<Movie> ratedMovies) {
         this.ratedMovies = ratedMovies;
     }
 

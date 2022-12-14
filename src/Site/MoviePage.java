@@ -1,11 +1,12 @@
-package Site;
+package site;
 
-import inputFiles.Movie;
+import inputfiles.Movie;
 
 import java.util.ArrayList;
 
-public class MoviePage extends Page{
-    ArrayList<Movie> movies=new ArrayList <Movie>();
+public class MoviePage extends Page {
+    ArrayList<Movie> movies = new ArrayList<Movie>();
+
     public MoviePage() {
         setPageType("movies");
         setAvailablePages("homePageA");
@@ -15,11 +16,11 @@ public class MoviePage extends Page{
 
     }
 
-    public ArrayList <Movie> getMovies() {
+    public ArrayList<Movie> getMovies() {
         return movies;
     }
 
-    public void setMovies(ArrayList <Movie> movies) {
+    public void setMovies(ArrayList<Movie> movies) {
         this.movies = movies;
     }
 }

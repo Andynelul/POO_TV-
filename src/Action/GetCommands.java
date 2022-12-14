@@ -1,20 +1,32 @@
-package Action;
+package action;
 
-import OutputClasses.OutputAdd;
-import Site.Page;
+import outputclasses.OutputAdd;
+import site.Page;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import inputFiles.ActionInput;
-import inputFiles.InputData;
-import Site.*;
+import inputfiles.ActionInput;
+import inputfiles.InputData;
+import site.*;
+
 import java.util.ArrayList;
-import Site.MoviePage;
-import Site.Login;
-import inputFiles.Movie;
-import inputFiles.User;
 
+import site.MoviePage;
+import site.Login;
+import inputfiles.Movie;
+import inputfiles.User;
+
+/**
+ * GetCommands class is doing the majority of the tasks implemented in this project
+ * It determines the type of the command and executes it with the help of the class Actions
+ */
 public class GetCommands {
-    public void execute(InputData input, ArrayNode out) {
-
+    /**
+     * executes the commands and adds the results to the output
+     *
+     * @param input
+     * @param out
+     */
+    public void execute(final InputData input, final ArrayNode out) {
+        int maxRate = 6, premiumPrice = 10;
         OutputAdd output = new OutputAdd();
         Site site = Site.getInstance();
         MoviePage movPage = new MoviePage();
@@ -29,7 +41,7 @@ public class GetCommands {
                                 currentUser.getCredentials().getCountry()));
                     }
                     if (action.getPage().equals("see details")) {
-                        ArrayList <Movie> tempMovie = new ArrayList <>();
+                        ArrayList<Movie> tempMovie = new ArrayList<>();
                         for (int i = 0; i < movPage.getMovies().size(); i++) {
 
                             if (movPage.getMovies().get(i).getName().equals(action.getMovie())) {
@@ -54,7 +66,8 @@ public class GetCommands {
                         if (currentUser != null) {
                             if (!currentPage.getPageType().equals("homePageA")
                                     && !action.getPage().equals("upgrades")) {
-                                output.add(null, movPage.getMovies(), currentUser, out, currentPage);
+                                output.add(null, movPage.getMovies(), currentUser, out,
+                                        currentPage);
                             }
                         }
                     }
@@ -122,7 +135,7 @@ public class GetCommands {
                                     movPage.getMovies()));
                         }
                         if (action.getFilters().getSort() != null) {
-                            filter.Sort(action.getFilters().getSort(), movPage.getMovies());
+                            filter.sort(action.getFilters().getSort(), movPage.getMovies());
                         }
                         output.add(null, movPage.getMovies(), currentUser, out, currentPage);
                     } else {
@@ -145,9 +158,10 @@ public class GetCommands {
 
                 } else if (action.getFeature().equals("buy premium account")) {
                     if (currentPage.getPageType().equals("upgrades")) {
-                        if (currentUser.getTokensCount() >= 10) {
+                        if (currentUser.getTokensCount() >= premiumPrice) {
                             if (currentUser.getCredentials().getAccountType().equals("standard")) {
-                                currentUser.setTokensCount(currentUser.getTokensCount() - 10);
+                                currentUser.setTokensCount(
+                                        currentUser.getTokensCount() - premiumPrice);
                                 currentUser.getCredentials().setAccountType("premium");
                             } else {
                                 output.add("Error", movPage.getMovies(), null, out, currentPage);
@@ -201,17 +215,19 @@ public class GetCommands {
                     }
                 } else if (action.getFeature().equals("rate")) {
                     if (currentPage.getPageType().equals("see details")) {
-                        if (action.getRate() > 0 && action.getRate() < 6) {
-                            if (currentUser.getWatchedMovies().contains(movPage.getMovies().get(0))) {
-                                double rate = action.getRate() +
-                                        (movPage.getMovies().get(0).getRating() *
-                                                movPage.getMovies().get(0).getNumRatings());
+                        if (action.getRate() > 0 && action.getRate() < maxRate) {
+                            if (currentUser.getWatchedMovies().contains(
+                                    movPage.getMovies().get(0))) {
+                                double rate = action.getRate()
+                                        + (movPage.getMovies().get(0).getRating()
+                                        * movPage.getMovies().get(0).getNumRatings());
                                 movPage.getMovies().get(0).setNumRatings(
                                         movPage.getMovies().get(0).getNumRatings() + 1);
-                                movPage.getMovies().get(0).setRating(rate /
-                                        movPage.getMovies().get(0).getNumRatings());
+                                movPage.getMovies().get(0).setRating(rate
+                                        / movPage.getMovies().get(0).getNumRatings());
                                 currentUser.getRatedMovies().add(movPage.getMovies().get(0));
-                                output.add(null, movPage.getMovies(), currentUser, out, currentPage);
+                                output.add(null, movPage.getMovies(), currentUser, out,
+                                        currentPage);
 
                             } else {
                                 output.add("Error", movPage.getMovies(), null, out, currentPage);
